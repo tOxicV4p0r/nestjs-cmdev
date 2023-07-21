@@ -1,0 +1,130 @@
+command
+nest g [module|service|controller]
+
+var_name: var_type
+constructor(var:var_type){
+    this.var_name = var;
+}
+-shorthand
+constructor(private var_name:var_type){}
+
+reponse type depend on type of value
+
+-create docker compose for postgres DB
+
+-install prisma for interface with postgresDB
+
+npm i prisma --save-dev #install prisma
+npm i @prisma/client #Prisma Client is an auto-generated and type-safe query builder
+npx prisma #show all prisma command
+npx prisma init 
+- config DB URL in .env
+
+- create db model in schema.prisma file
+- migrate
+- show help #prisma migrate --help
+npx prisma migrate dev
+npx prisma studio
+
+if alter db
+npx prisma migrate reset #deletes and recreates the database
+
+- generate Prisma Client
+npx prisma generate
+    The generate command is most often used to generate Prisma Client with the prisma-client-js generator. This does three things:
+    - Searches the current directory and parent directories to find the applicable npm project. It will create a package.json file in the current directory if it cannot find one.
+    - Installs the @prisma/client into the npm project if it is not already present.
+    - Inspects the current directory to find a Prisma schema file to process. It will then generate a customized Prisma Client for your project.
+
+-create PrismaService for connect DB
+-define prisma module as Global
+
+-create DTO (data transfer object)
+
+-install classs validator
+npm i --save class-validator class-transformer
+-add decorator to DTO
+
+-tell express to use Pipe
+app.useGlobalPipes(new ValidationPipe());
+{ whitelist: true } #strip out other field
+
+-install argon2
+npm i argon2
+
+-signup
+-signin
+
+-add script restart DB (up remove)
+db:dev:up -> up
+db:dev:rm -> delete database
+prisma:dev:deploy -> migrate
+db:dev:restart -> delete -> up -> wait -> migrate
+
+-install config package for read env file
+npm i @nestjs/config
+
+-if there is dependecy ex.
+    constructor(...inject class module)
+    must have @Injectable decorator
+
+-inject nestjs config to prisma service then get database_url
+-add isGlobal as an option to CongigModule
+ConfigModule.forRoot({isGlobal: true,}),
+
+-authenication
+-install passport jwt
+npm i @nestjs/passport passport @nestjs/jwt passport-jwt
+npm i --save-dev @types/passport-jwt
+
+-signToken to signin
+-add stategy to auth module
+-useGuard , pass the strategy name that provide in stategy - in this case "jwt"
+@UseGuards(AuthGuard('jwt'))
+-add validate function
+
+
+-if we have a stirng somewhere, it can create error
+AuthGuard('jwt2')
+-create custom Guard to replace the above
+export class JwtGuard extends AuthGuard('jwt2') 
+-replace AuthGuard
+@UseGuards(JwtGuard)
+
+-create custom decorator for auth
+get-user.decorator
+-use type User that generated from prisma client
+user: User
+
+-TESTING E2E
+-install PactumJs
+npm i pactum
+
+-watch no cache result
+--watch --no-cache
+
+-create test module
+-create db for test
+
+-install dotenv-cli for select the test DB
+npm i dotenv-cli
+
+"prisma:test:deploy": "dotenv -e .env.test -- prisma migrate deploy"
+"pretest:e2e":
+"test:e2e": "dotenv -e .env.test -- jest
+
+-because jest watch test, when delete data we have to arrange the sequence to avoid the conflict for the table relation
+-create function for delete data in PrismaService
+-running the sequence by using $transaction
+this.$transaction([
+    this.bookmark.deleteMany(),
+    this.user.deleteMany(),
+]);
+
+-run cleanDb in beforeAll() test function
+
+-create testcase TDD
+
+---------------------------------------------------------
+CM DEV
+---------------------------------------------------------
